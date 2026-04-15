@@ -1,0 +1,103 @@
+{
+  "$id": "lottie-unit-definition@0.1",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Verona Player Lottie Unit Definition",
+  "type": "object",
+  "required": ["backgroundColor", "scenes", "animations"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the unit definition"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the unit definition format"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "pattern": "^#([A-Fa-f0-9]{3}){1,2}$",
+      "description": "Background color of the unit in hex format"
+    },
+    "scenes": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/SceneData" }
+    },
+    "animations": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/AnimationData" }
+    }
+  },
+  "definitions": {
+    "SceneData": {
+      "type": "object",
+      "required": ["scene", "script"],
+      "properties": {
+        "scene": { "type": "string" },
+        "cockpitSrc": { "type": "string" },
+        "backgroundIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "foregroundIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "script": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ScriptData" }
+        },
+        "interaction": { "type": "boolean" },
+        "interactionType": { "type": "string" },
+        "interactionParameters": { "$ref": "#/definitions/InteractionParameters" }
+      }
+    },
+    "ScriptData": {
+      "type": "object",
+      "required": ["scene", "loop", "animationIds"],
+      "properties": {
+        "scene": { "type": "string" },
+        "loop": { "type": "boolean" },
+        "loopCount": { "type": "integer" },
+        "animationIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "audioSrc": { "type": "string" },
+        "waitForAudioToFinish": { "type": "boolean" }
+      }
+    },
+    "AnimationData": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string" },
+        "animationSrc": { "type": "string" },
+        "animations": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/AnimationData" }
+        },
+        "parameterId": { "type": "string" }
+      }
+    },
+    "InteractionParameters": {
+      "type": "object",
+      "required": ["sharedId", "options"],
+      "properties": {
+        "sharedId": { "type": "string" },
+        "options": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/InteractionOptions" }
+        }
+      }
+    },
+    "InteractionOptions": {
+      "type": "object",
+      "required": ["value"],
+      "properties": {
+        "imageSrc": { "type": "string" },
+        "label": { "type": "string" },
+        "value": { "type": "string" }
+      }
+    }
+  }
+}
