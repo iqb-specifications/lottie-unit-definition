@@ -24,12 +24,14 @@
     },
     "scenes": {
       "type": "array",
+      "description": "Array of scenes with different background and layout settings",
       "items": {
         "$ref": "#/definitions/SceneData"
       }
     },
     "animations": {
       "type": "array",
+      "description": "List of all animations used",
       "items": {
         "$ref": "#/definitions/AnimationData"
       }
@@ -47,28 +49,34 @@
           "type": "string"
         },
         "cockpitSrc": {
-          "type": "string"
+          "type": "string",
+          "description": "Image File (best svg or transparent png) to use on top of the animations",
+          "contentEncoding": "base64"
         },
         "backgroundIds": {
           "type": "array",
+          "description": "Array of animations as Ids in the background for the complete scene",
           "items": {
             "type": "string"
           }
         },
         "foregroundIds": {
           "type": "array",
+          "description": "Array of animations as Ids in the foreground for the complete scene",
           "items": {
             "type": "string"
           }
         },
         "script": {
           "type": "array",
+          "description": "Array of animations and audio to run after each other",
           "items": {
             "$ref": "#/definitions/ScriptData"
           }
         },
         "interaction": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
         "interactionType": {
           "type": "string"
@@ -90,22 +98,30 @@
           "type": "string"
         },
         "loop": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Boolean if the animation should run in a loop"
         },
         "loopCount": {
-          "type": "integer"
+          "type": "integer",
+          "description": "Number of loops to be played (zero for unlimited)",
+          "default": 0
         },
         "animationIds": {
           "type": "array",
+          "description": "Array of animations as Ids, descending order (z-index) from first animation in array on top",
           "items": {
             "type": "string"
           }
         },
         "audioSrc": {
-          "type": "string"
+          "type": "string",
+          "description": "Audio to be played along the animations",
+          "contentEncoding": "base64"
         },
         "waitForAudioToFinish": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Wait for the audio to finish to proceed to next animation/scene",
+          "default": false
         }
       }
     },
@@ -116,10 +132,12 @@
       ],
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "Id of animation used as identifier"
         },
         "animationSrc": {
-          "type": "string"
+          "type": "string",
+          "contentEncoding": "base64"
         },
         "animations": {
           "type": "array",
@@ -128,7 +146,8 @@
           }
         },
         "parameterId": {
-          "type": "string"
+          "type": "string",
+          "description": "Id of the shared Parameter to choose wich animation has to be used"
         }
       }
     },
@@ -140,7 +159,8 @@
       ],
       "properties": {
         "sharedId": {
-          "type": "string"
+          "type": "string",
+          "description": "Id of the shared Parameter answer will be stored"
         },
         "options": {
           "type": "array",
