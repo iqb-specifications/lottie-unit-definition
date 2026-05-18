@@ -1,5 +1,5 @@
 {
-  "$id": "lottie-unit-definition@0.1",
+  "$id": "lottie-unit-definition@1.0",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Verona Player Lottie Unit Definition",
   "type": "object",
@@ -90,16 +90,15 @@
       "type": "object",
       "required": [
         "scene",
-        "loop",
         "animationIds"
       ],
       "properties": {
         "scene": {
           "type": "string"
         },
-        "loop": {
-          "type": "boolean",
-          "description": "Boolean if the animation should run in a loop"
+        "loopTarget": {
+          "type": "string",
+          "description": "Id of the animation slot to listen for loop completed"
         },
         "loopCount": {
           "type": "integer",
@@ -110,7 +109,7 @@
           "type": "array",
           "description": "Array of animations as Ids, descending order (z-index) from first animation in array on top",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/SceneAnimationData"
           }
         },
         "audioSrc": {
@@ -122,6 +121,28 @@
           "type": "boolean",
           "description": "Wait for the audio to finish to proceed to next animation/scene",
           "default": false
+        }
+      }
+    },
+    "SceneAnimationData": {
+      "type": "object",
+      "required": [
+        "id",
+        "animationId"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of the animation slot"
+        },
+        "animationId": {
+          "type": "string",
+          "contentEncoding": "Id of animation used as identifier"
+        },
+        "loop": {
+          "type": "boolean",
+          "description": "Boolean if the animation should run in a loop",
+          "default": true
         }
       }
     },
