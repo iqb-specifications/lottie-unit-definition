@@ -1,8 +1,9 @@
 {
-  "$id": "lottie-unit-definition@1.0",
+  "$id": "lottie-unit-definition@1.1",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Verona Player Lottie Unit Definition",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "backgroundColor",
     "scenes",
@@ -24,7 +25,7 @@
     },
     "scenes": {
       "type": "array",
-      "description": "Array of scenes with different background and layout settings",
+      "description": "Array of scenes, each with different background and layout settings",
       "items": {
         "$ref": "#/definitions/SceneData"
       }
@@ -46,7 +47,8 @@
       ],
       "properties": {
         "scene": {
-          "type": "string"
+          "type": "string",
+          "description": "identifier of scene"
         },
         "cockpitSrc": {
           "type": "string",
@@ -67,6 +69,13 @@
             "type": "string"
           }
         },
+        "animationSlots": {
+          "type": "array",
+          "description": "Definition of the clots available for the animations. Each slot work as a single Lottie Player instance",
+          "items": {
+            "$ref": "#/definitions/animationSlotData"
+          }
+        },
         "script": {
           "type": "array",
           "description": "Array of animations and audio to run after each other",
@@ -76,10 +85,14 @@
         },
         "interaction": {
           "type": "boolean",
+          "description": "Toggle if an interaction should be overlayed",
           "default": false
         },
         "interactionType": {
-          "type": "string"
+          "type": "string",
+          "description": "Type of Interaction",
+          "enum": ["BUTTONS"],
+          "default": "BUTTONS"
         },
         "interactionParameters": {
           "$ref": "#/definitions/InteractionParameters"
@@ -94,7 +107,8 @@
       ],
       "properties": {
         "scene": {
-          "type": "string"
+          "type": "string",
+          "description": "identifier of this part of the scene"
         },
         "loopTarget": {
           "type": "string",
@@ -107,7 +121,7 @@
         },
         "animationIds": {
           "type": "array",
-          "description": "Array of animations as Ids, descending order (z-index) from first animation in array on top",
+          "description": "Array of animations to be shown",
           "items": {
             "$ref": "#/definitions/SceneAnimationData"
           }
@@ -124,6 +138,22 @@
         }
       }
     },
+    "animationSlotData": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "identifier of the animation slot"
+        },
+        "zindex": {
+          "type": "number",
+          "description": "z-index of the animation slot for layering"
+        }
+      }
+    },
     "SceneAnimationData": {
       "type": "object",
       "required": [
@@ -133,7 +163,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Id of the animation slot"
+          "description": "Id of the animation slot the animation should be put in"
         },
         "animationId": {
           "type": "string",
@@ -158,17 +188,19 @@
         },
         "animationSrc": {
           "type": "string",
+          "description": "animation Source for a single animation",
           "contentEncoding": "base64"
         },
         "animations": {
           "type": "array",
+          "description": "array of possible animations to choose from",
           "items": {
             "$ref": "#/definitions/AnimationData"
           }
         },
         "parameterId": {
           "type": "string",
-          "description": "Id of the shared Parameter to choose wich animation has to be used"
+          "description": "Id of the SharedParameter to choose which animation has to be used"
         }
       }
     },
@@ -181,7 +213,7 @@
       "properties": {
         "sharedId": {
           "type": "string",
-          "description": "Id of the shared Parameter answer will be stored"
+          "description": "Id of the SharedParameter, the answer will be stored as"
         },
         "options": {
           "type": "array",
@@ -198,13 +230,20 @@
       ],
       "properties": {
         "imageSrc": {
-          "type": "string"
+          "type": "string",
+          "description": "image or lottie file",
+          "contentEncoding": "base64"
         },
         "label": {
           "type": "string"
         },
         "value": {
           "type": "string"
+        },
+        "speed": {
+          "type": "number",
+          "description": "speed of animation when lottie animation is provided as ImageSrc",
+          "default": 1
         }
       }
     }
