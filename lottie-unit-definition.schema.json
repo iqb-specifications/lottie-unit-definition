@@ -1,5 +1,5 @@
 {
-  "$id": "lottie-unit-definition@1.1",
+  "$id": "lottie-unit-definition@2.0",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Verona Player Lottie Unit Definition",
   "type": "object",
@@ -30,6 +30,13 @@
         "$ref": "#/definitions/SceneData"
       }
     },
+    "slotDefinitions": {
+      "type": "array",
+      "description": "Definition of slots in which animation will run",
+      "items": {
+        "$ref": "#/definitions/SlotDefinition"
+      }
+    },
     "animations": {
       "type": "array",
       "description": "List of all animations used",
@@ -42,11 +49,11 @@
     "SceneData": {
       "type": "object",
       "required": [
-        "scene",
+        "id",
         "script"
       ],
       "properties": {
-        "scene": {
+        "id": {
           "type": "string",
           "description": "identifier of scene"
         },
@@ -57,23 +64,16 @@
         },
         "backgroundIds": {
           "type": "array",
-          "description": "Array of animations as Ids in the background for the complete scene",
+          "description": "Array of animations as Ids in the background for the whole scene. First in array will be on top.",
           "items": {
             "type": "string"
           }
         },
         "foregroundIds": {
           "type": "array",
-          "description": "Array of animations as Ids in the foreground for the complete scene",
+          "description": "Array of animations as Ids in the foreground for the whole scene. First in array will be on top.",
           "items": {
             "type": "string"
-          }
-        },
-        "animationSlots": {
-          "type": "array",
-          "description": "Definition of the clots available for the animations. Each slot work as a single Lottie Player instance",
-          "items": {
-            "$ref": "#/definitions/animationSlotData"
           }
         },
         "script": {
@@ -102,24 +102,25 @@
     "ScriptData": {
       "type": "object",
       "required": [
-        "scene",
-        "animationIds"
+        "id",
+        "animations"
       ],
       "properties": {
-        "scene": {
+        "id": {
           "type": "string",
           "description": "identifier of this part of the scene"
         },
         "loopTarget": {
           "type": "string",
-          "description": "Id of the animation slot to listen for loop completed"
+          "description": "Id of the animation slot to listen for loop completed",
+          "default": "main or first in array"
         },
         "loopCount": {
           "type": "integer",
           "description": "Number of loops to be played (zero for unlimited)",
           "default": 0
         },
-        "animationIds": {
+        "animations": {
           "type": "array",
           "description": "Array of animations to be shown",
           "items": {
@@ -138,7 +139,7 @@
         }
       }
     },
-    "animationSlotData": {
+    "SlotDefinition": {
       "type": "object",
       "required": [
         "id"
@@ -157,22 +158,27 @@
     "SceneAnimationData": {
       "type": "object",
       "required": [
-        "id",
+        "slotId",
         "animationId"
       ],
       "properties": {
-        "id": {
+        "slotId": {
           "type": "string",
-          "description": "Id of the animation slot the animation should be put in"
+          "description": "Id of the animation slot the animation should be put in as identifier"
         },
         "animationId": {
           "type": "string",
-          "contentEncoding": "Id of animation used as identifier"
+          "contentEncoding": "Id of animation as identifier"
         },
         "loop": {
           "type": "boolean",
           "description": "Boolean if the animation should run in a loop",
           "default": true
+        },
+        "loopCount": {
+          "type": "number",
+          "description": "specify after how many loops the animation will stop, 0 for infinite loop",
+          "default": 0
         }
       }
     },
@@ -195,13 +201,29 @@
           "type": "array",
           "description": "array of possible animations to choose from",
           "items": {
-            "$ref": "#/definitions/AnimationData"
+            "$ref": "#/definitions/AnimationsData"
           }
         },
         "parameterId": {
           "type": "string",
           "description": "Id of the SharedParameter to choose which animation has to be used"
         }
+      }
+    },
+    "AnimationsData": {
+      "type": "object",
+      "required": [
+        "id",
+        "animationSrc"
+      ],
+      "id": {
+        "type": "string",
+        "description": "value of the SharedParameter to choose the animation with"
+      },
+      "animationSrc": {
+        "type": "string",
+        "description": "animation Source for a single animation",
+        "contentEncoding": "base64"
       }
     },
     "InteractionParameters": {
