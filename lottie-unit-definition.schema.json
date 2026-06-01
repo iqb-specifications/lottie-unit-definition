@@ -1,5 +1,5 @@
 {
-  "$id": "lottie-unit-definition@2.0",
+  "$id": "lottie-unit-definition@2.1",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Verona Player Lottie Unit Definition",
   "type": "object",
@@ -43,6 +43,10 @@
       "items": {
         "$ref": "#/definitions/AnimationData"
       }
+    },
+    "loadExternalAnimations": {
+      "type": "string",
+      "description": "Filename of external file with animation data to load"
     }
   },
   "definitions": {
