@@ -1,10 +1,12 @@
 {
-  "$id": "lottie-unit-definition@2.3",
+  "$id": "lottie-unit-definition@2.4",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Verona Player Lottie Unit Definition",
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "id",
+    "version",
     "backgroundColor",
     "scenes",
     "animations"
@@ -126,7 +128,7 @@
         },
         "animations": {
           "type": "array",
-          "description": "Array of animations to be shown",
+          "description": "Array of animations to be shown, might be empty array",
           "items": {
             "$ref": "#/definitions/SceneAnimationData"
           }
@@ -162,7 +164,6 @@
     "SceneAnimationData": {
       "type": "object",
       "required": [
-        "slotId",
         "animationId"
       ],
       "properties": {
@@ -237,11 +238,11 @@
     },
     "InteractionParameters": {
       "type": "object",
-      "required": [
-        "sharedId",
-        "options"
-      ],
       "properties": {
+        "variableId": {
+          "type": "string",
+          "description": "Id of the variable, the answer will be stored as IQB Response"
+        },
         "sharedId": {
           "type": "string",
           "description": "Id of the SharedParameter, the answer will be stored as"
